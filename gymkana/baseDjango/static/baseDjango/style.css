@@ -1,0 +1,27 @@
+.encuadre{
+    border: 4px solid #C83226;
+    border-radius: 10%;
+    background-color: ghostwhite;
+    width: fit-content;
+    padding-right: 1%;
+    margin: 1%;
+    text-align: center;
+}
+
+.iconos{
+    margin: 1%;
+    padding: 1%;
+}
+
+.fotoDetalle{
+    width: 400px;
+    height: 200px;
+}
+
+.titulo {
+    color: indianred;
+}
+
+li {
+    color: white;
+}

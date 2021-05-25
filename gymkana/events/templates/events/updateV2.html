@@ -1,0 +1,18 @@
+{% extends "baseDjango/base.html" %}
+
+{% block title %} Actualizar evento V2
+{% endblock %}
+
+{% block principal %}
+<h1>Actualiza el evento</h1>
+{% endblock %}
+
+{% block contenido %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <h3 style="color: black;">{{form.errors}}</h3>
+    <input type="submit" value="OK">
+</form>
+{% endblock %}
