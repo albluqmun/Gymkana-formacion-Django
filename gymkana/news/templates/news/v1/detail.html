@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ new.title }}</title>
-    {% load static %}
-    {% load bootstrap3 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
+{% extends "combi/base.html" %}
+{% block title %}{{ new.title }}{% endblock %}
+{% block head %}
     <style>
         #heading {
             background-image: url({{ new.image.url }});
@@ -25,8 +19,8 @@
             color: lightgoldenrodyellow;
         }
     </style>
-</head>
-<body>
+{% endblock %}
+{% block body %}
     <div id="article" class="jumbotron">
         <div id="heading" class="container">
             <h1>{{ new.title }}</h1>
@@ -35,10 +29,18 @@
         <div class="container">
             <p>{{ new.body }}</p>
             <p>{{ new.publish_date }}</p>
+            <div class="row">
+                <div class="col-lg-6">
+                    <button type="button" onclick="window.location.href='{% url 'news:update-1' new.id %}'" class="btn btn-primary">Update New</button>
+                    <button type="button" onclick="window.history.back();" class="btn btn-default">Back</button>
+                </div>
+                <div class="col-lg-6">
+                    <button type="button" onclick="window.location.href='{% url 'news:delete-1' new.id %}'" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
             <figure class="new_photo">
                 <img class="img-responsive" src="{{ new.image.url }}" alt="{{ new.subtitle }}">
             </figure>
         </div>
     </div>
-</body>
-</html>
+{% endblock %}
