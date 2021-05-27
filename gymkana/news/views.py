@@ -25,48 +25,30 @@ def borrar_noticiaV1(request, new_id):
 
 
 def editar_noticiaV1(request, new_id):
+    # import ipdb
+    # ipdb.set_trace()
     new = get_object_or_404(New, pk=new_id)
-    form = NewForm(request.POST, request.FILES, instance=new)
-    if form.is_valid():
-        # if check_imagen(form.cleaned_data['image']):
-        form.save()
-        return HttpResponseRedirect('/news/v1/allnews')
+    if request.method == 'POST':
+        form = NewForm(request.POST, request.FILES, instance=new)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("/news/v1/allnews")
     else:
-        form = NewForm()
+        data = {'title': new.title, 'subtitle': new.subtitle,
+                'body': new.body, 'image': new.image}
+        form = NewForm(data, request.POST, request.FILES, instance=new)
 
     return render(request, 'news/updateV1.html', {'form': form})
-
-
-def check_imagen(image):
-    if image._size < 10485760:
-        img = Image.open(image)
-        img.verify()
-        if img.format in ('png', 'jpg'):
-            return True
-        else:
-            raise ValidationError(
-                "Unsupported image type. Please upload jpg or png")
-    else:
-        raise ValidationError("The image size must be under 10MB")
 
 
 def createV1(request):
     if request.method == 'POST':
         form = NewForm(request.POST, request.FILES)
         if form.is_valid():
-            # img = form.cleaned_data['image']
-            # if img:
-            #     print("jpg" in img)
-            #     print("png" in img)
-
-            #     if ".png" in img or ".jpg" in img:
             form.save()
-            # else:
-            #     raise ValidationError("Debe ser png o jpg")
             return HttpResponseRedirect('/news/v1/allnews')
     else:
         form = NewForm()
-
     return render(request, 'news/createV1.html', {'form': form})
 
 # --------------------------------V2------------------------------------------------
@@ -90,7 +72,7 @@ class crear_noticiaV2(generic.CreateView):
 
     model = New
     template_name = 'news/createV2.html'
-    fields = ['title', 'subtitle', 'body', 'image']
+    form_class = NewForm
     success_url = "/news/v2/allnews"
 
 
@@ -98,7 +80,7 @@ class actualizar_noticiaV2(generic.UpdateView):
 
     model = New
     template_name = 'news/updateV2.html'
-    fields = ['title', 'subtitle', 'body', 'image']
+    form_class = NewForm
     success_url = "/news/v2/allnews"
 
 
